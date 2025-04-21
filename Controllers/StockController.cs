@@ -15,12 +15,32 @@ public class StockController(AppDbContext context) : ControllerBase
     // GET /api/stocks
     // example response
     // [
-
+    //     {
+    //         "id": 4,
+    //         "productId": 504,
+    //         "product": {
+    //             "id": 504,
+    //             "name": "Gaming Mouse",
+    //             "price": 49.99
+    //         },
+    //         "quantity": 20,
+    //         "location": "Warehouse A"
+    //     }
     // ]
-    // GET /api/stocks?name=Gaming%20Keyboard
+    // GET /api/stocks?name=Gaming%20Mouse
     // example response
     // [
-
+    //     {
+    //         "id": 4,
+    //         "productId": 504,
+    //         "product": {
+    //             "id": 504,
+    //             "name": "Gaming Mouse",
+    //             "price": 49.99
+    //         },
+    //         "quantity": 20,
+    //         "location": "Warehouse A"
+    //     }
     // ]
     // GET /api/stocks?name=UnknownItem
     // example response
@@ -31,9 +51,9 @@ public class StockController(AppDbContext context) : ControllerBase
     //     "traceId": "id.."
     // }
     /// <summary>
-    /// Retrieves all products, or filters products by name if a query is provided.
+    /// Retrieves all stocks, or filters stocks by product name if a query is provided.
     /// </summary>
-    /// <param name="name">Optional name filter for products.</param>
+    /// <param name="name">Optional name filter for stocks by product name.</param>
     /// <returns>List of products.</returns>
     [HttpGet]
     [ProducesResponseType(typeof(Stock[]), StatusCodes.Status200OK)]

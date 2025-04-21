@@ -4,8 +4,16 @@ using ProductApi.Models;
 
 namespace ProductApi.Seeders;
 
-public class ProductSeeder
+/// <summary>
+/// ProductSeeder class responsible for seeding Product data into the database if necessary.
+/// </summary>
+public static class ProductSeeder
 {
+    /// <summary>
+    /// Asynchronously seeds the database with product data if the Products table is empty.
+    /// </summary>
+    /// <param name="db">The database context to seed the product data into.</param>
+    /// <returns>Awaitable task that represents the asynchronous seeding operation.</returns>
     public static async Task SeedAsync(AppDbContext db)
     {
         if (!db.Products.Any())

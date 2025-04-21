@@ -35,6 +35,11 @@ using (var scope = app.Services.CreateScope())
     // Seed only if in Development environment
     if (app.Environment.IsDevelopment())
     {
+        // DELETE EVERYTHING!
+        await db.Database.EnsureDeletedAsync();
+        
+        // Then recreate it
+        await db.Database.EnsureCreatedAsync();
         await DbSeeder.SeedAsync(db);
     }
 }

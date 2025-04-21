@@ -9,7 +9,7 @@ public class StockFactory
 {
     private static readonly Faker Faker = new Faker();
     /// <summary>
-    /// Creates a random product
+    /// Creates a random stock
     /// </summary>
     /// <returns></returns>
     public static Stock Create(int? id = null)

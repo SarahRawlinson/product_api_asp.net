@@ -51,23 +51,34 @@ public class ProductsController(AppDbContext context) : ControllerBase
     [HttpGet]
     [ProducesResponseType(typeof(Product[]), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<IEnumerable<Product>>> GetProducts([FromQuery] string? name)
+    public async Task<ActionResult<IEnumerable<Product>>> GetProducts(
+            [FromQuery] string? name,
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10
+        )
     {
         if (!string.IsNullOrEmpty(name))
         {
-            var products = await context.Products
-                .Where(p => p.Name.Contains(name))
-                .ToListAsync();
+            var query = context.Products
+                .Where(p => p.Name.Contains(name));
+            var totalItems = await query.CountAsync();
 
-            if (!products.Any())
+            if (totalItems == 0)
             {
                 return NotFound();
             }
-
+            
+            var products = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
             return Ok(products);
         }
 
-        var allProducts = await context.Products.ToListAsync();
+        var allProducts = await context.Products
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
         return Ok(allProducts);
     }
 

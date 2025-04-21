@@ -30,7 +30,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.Migrate(); // Ensure database is up to date
+    
 
     // Seed only if in Development environment
     if (app.Environment.IsDevelopment())
@@ -41,6 +41,10 @@ using (var scope = app.Services.CreateScope())
         // Then recreate it
         await db.Database.EnsureCreatedAsync();
         await DbSeeder.SeedAsync(db);
+    }
+    else
+    {
+        await db.Database.MigrateAsync(); // Ensure database is up to date
     }
 }
 

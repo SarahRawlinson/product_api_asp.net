@@ -58,25 +58,35 @@ public class StockController(AppDbContext context) : ControllerBase
     [HttpGet]
     [ProducesResponseType(typeof(Stock[]), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<IEnumerable<Stock>>> GetStock([FromQuery] string? name)
+    public async Task<ActionResult<IEnumerable<Stock>>> GetStock(
+            [FromQuery] string? name,
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 10
+        )
     {
         if (!string.IsNullOrEmpty(name))
         {
-            var stocks = await context.Stocks
+            var query = context.Stocks
                 .Where(p => p.Product.Name.Contains(name))
-                .Include(p => p.Product)
-                .ToListAsync();
+                .Include(p => p.Product);
 
-            if (!stocks.Any())
+            var totalItems = await query.CountAsync();
+
+            if (totalItems == 0)
             {
                 return NotFound();
             }
-
+            var stocks = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
             return Ok(stocks);
         }
 
         var allStock = await context.Stocks
             .Include(p => p.Product)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync();
         return Ok(allStock);
     }

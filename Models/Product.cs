@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProductApi.Models;
 
@@ -10,12 +11,14 @@ public class Product
     /// <summary>
     /// Represents the unique identifier of a product.
     /// </summary>
+    [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     /// <summary>
     /// Represents the name of a product.
     /// </summary>
+    [MaxLength(100)] 
     public string Name { get; set; }
 
     /// <summary>

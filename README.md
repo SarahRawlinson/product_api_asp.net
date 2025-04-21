@@ -68,3 +68,6 @@ The API will be available at:
 ```url
   http://localhost:5073/swagger
 ```
+
+## Notes
+[Entity Framework Core tools reference](https://learn.microsoft.com/en-us/ef/core/cli/dotnet)
